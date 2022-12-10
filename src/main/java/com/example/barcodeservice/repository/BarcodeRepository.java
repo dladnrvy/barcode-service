@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface BarcodeRepository extends JpaRepository<Barcode, Long> {
     List<Barcode> findByUserId(Long id);
+    Barcode findByBarcode(String barcode);
 }

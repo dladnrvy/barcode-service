@@ -1,5 +1,6 @@
 package com.example.barcodeservice.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
 
