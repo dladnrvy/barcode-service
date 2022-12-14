@@ -36,7 +36,6 @@ class BarcodeControllerTest {
     @MockBean
     private BarcodeServiceImpl barcodeService;
 
-    ModelMapper modelMapper;
 
     @BeforeEach
     public void init(){

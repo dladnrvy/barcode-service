@@ -11,13 +11,16 @@ import java.io.Serializable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Barcode implements Serializable {
 
+    /** 바코드 아이디 */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /** 사용자 아이디 */
     @Column(name="user_id", length = 9, unique = true)
     private Long userId;
 
+    /** 바코드 */
     @Column(nullable = false, length = 10, unique = true)
     private String barcode;
 

@@ -37,12 +37,7 @@ public class BarcodeController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
         }
 
-        //log.info("controller");
-        //log.info("request userId : " + barcodeReqDto.getUserId());
-
         BarcodeCreateDto barcodeCreateDto = modelMapper.map(barcodeReqDto, BarcodeCreateDto.class);
-
-        //log.info("barcodeCreateDto userId : " + barcodeCreateDto.getUserId());
 
         BarcodeCreateResponseDto barcodeCreateResponseDto = barcodeServiceImpl.createCode(barcodeCreateDto);
         return ResponseEntity.ok(barcodeCreateResponseDto);
