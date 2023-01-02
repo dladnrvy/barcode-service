@@ -18,8 +18,8 @@ import java.util.Set;
 public class SwaggerConfig {
 
     private ApiInfo swaggerInfo() {
-        return new ApiInfoBuilder().title("POINT API")
-                .description("POINT API Docs").build();
+        return new ApiInfoBuilder().title("BARCODE API")
+                .description("BARCODE API Docs").build();
     }
 
     @Bean
@@ -28,7 +28,7 @@ public class SwaggerConfig {
                 .consumes(getConsumeContentTypes())
                 .produces(getProduceContentTypes())
                 .apiInfo(swaggerInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.marketpointservice.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.example.barcodeservice.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .useDefaultResponseMessages(false);
