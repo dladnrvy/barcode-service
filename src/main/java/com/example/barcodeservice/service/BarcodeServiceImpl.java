@@ -31,17 +31,16 @@ public class BarcodeServiceImpl implements BarcodeService{
     @Override
     @Transactional
     public BarcodeCreateResponseDto createCode(BarcodeCreateDto barcodeCreateDto){
-        String randomCode = RandomStringUtils.randomAlphanumeric(16);
-        barcodeCreateDto.setBarcode(randomCode);
+        BarcodeCreateResponseDto rtnBarcodeResponse;
 
         //중복검증
         Optional<BarcodeEntity> findBarcode = getBarcodeByUserId(barcodeCreateDto.getUserId());
-        BarcodeCreateResponseDto rtnBarcodeResponse = modelMapper.map(findBarcode, BarcodeCreateResponseDto.class);
 
         if(!findBarcode.isPresent()){
-            BarcodeEntity barcodeEntity = BarcodeEntity.builder().userId(barcodeCreateDto.getUserId()).barcode(barcodeCreateDto.getBarcode()).build();
-            barcodeRepository.save(barcodeEntity);
+            BarcodeEntity barcodeEntity = barcodeRepository.save(BarcodeEntity.builder().userId(barcodeCreateDto.getUserId()).barcode(randomBarcodeCreate()).build());
             rtnBarcodeResponse = modelMapper.map(barcodeEntity, BarcodeCreateResponseDto.class);
+        }else{
+            rtnBarcodeResponse = modelMapper.map(findBarcode.get(), BarcodeCreateResponseDto.class);
         }
 
         return rtnBarcodeResponse;
@@ -65,6 +64,16 @@ public class BarcodeServiceImpl implements BarcodeService{
     public Optional<BarcodeEntity> getBarcodeByUserId(Long userId) {
         Optional<BarcodeEntity> findBarcode = Optional.ofNullable(barcodeRepository.findByUserId(userId));
         return findBarcode;
+    }
+
+
+
+    /**
+     * 16자리 랜덤 바코드 생성
+     */
+    @Override
+    public String randomBarcodeCreate() {
+        return RandomStringUtils.randomAlphanumeric(16);
     }
 
 

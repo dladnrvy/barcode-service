@@ -12,4 +12,5 @@ public interface BarcodeService {
      BarcodeCreateResponseDto createCode(BarcodeCreateDto barcodeCreateDto);
      Optional<BarcodeEntity> getBarcodeByCode(String barcode);
      Optional<BarcodeEntity> getBarcodeByUserId(Long userId);
+     String randomBarcodeCreate();
 }
