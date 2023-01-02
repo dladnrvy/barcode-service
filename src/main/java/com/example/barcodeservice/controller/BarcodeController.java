@@ -28,7 +28,7 @@ public class BarcodeController {
     private final ModelMapper modelMapper;
     private Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
-    @ApiOperation(value="바코드 생성", notes="정상적으로 생성 될 경우 상태 200과 생성된 바코드 리턴 / 적립 중 오류가 발생하면 data에 오류메시지를 리턴 / Validated 오류가 발생하면 400 오류를 리턴")
+    @ApiOperation(value="바코드 생성", notes="정상적으로 생성 될 경우 CODE : 200, DATA : 바코드 리턴/ 생성 중 오류가 발생하면 data에 오류메시지를 리턴 / Validated 오류가 발생하면 400 오류를 리턴")
     @PostMapping("/createCode")
     public ResponseEntity<BasicResponse> createBarcode(@Validated @RequestBody BarcodeCreateRequestDto barcodeReqDto){
         BasicResponse rtn = new BasicResponse<>();
@@ -41,16 +41,16 @@ public class BarcodeController {
     }
 
     @ApiOperation(value="바코드 ID 조회",
-            notes="정상적으로 조회 될 경우 상태 200과 바코드 ID 리턴 / 적립 중 오류가 발생하면 data에 오류메시지를 리턴")
+            notes="정상적으로 조회 될 경우 CODE : 200, DATA : 바코드 ID 리턴 / 조회 된 바코드ID가 없으면 CODE : 200, DATA : NULL 리턴 / 조회 중 오류가 발생하면 data에 오류메시지를 리턴")
     @GetMapping("/createCode")
-    public BasicResponse getBarcodeId(@RequestParam String barcode){
-        BasicResponse basicResponse = new BasicResponse<>();
+    public ResponseEntity<BasicResponse> getBarcodeId(@RequestParam String barcode){
+        BasicResponse rtn = new BasicResponse<>();
         Optional<BarcodeEntity> barcodeData = barcodeServiceImpl.getBarcodeByCode(barcode);
-        if(barcodeData.isPresent()) basicResponse.setCode(RtnCode.FAIL);
-        else {
-            basicResponse.setCode(RtnCode.SUCCESS);
-            basicResponse.setData(barcodeData.get().getBarcodeId());
-        }
-        return basicResponse;
+        rtn.setCode(RtnCode.SUCCESS);
+
+        if(!barcodeData.isPresent()) rtn.setData("");
+        else rtn.setData(barcodeData.get().getBarcodeId());
+
+        return ResponseEntity.ok(rtn);
     }
 }
