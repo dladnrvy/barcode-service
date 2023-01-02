@@ -1,12 +1,11 @@
 package com.example.barcodeservice.controller;
 
 
-import com.example.barcodeservice.domain.Barcode;
+import com.example.barcodeservice.domain.BarcodeEntity;
 import com.example.barcodeservice.service.BarcodeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -17,6 +16,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -87,10 +88,12 @@ class BarcodeControllerTest {
     @Test
     void 바코드아이디_반환_성공_테스트() throws Exception {
         // given
-        given(barcodeService.findBarcode("1111"))
-                .willReturn(Barcode.builder()
-                        .id(123L)
-                        .build());
+        BarcodeEntity barcode = BarcodeEntity.builder()
+                .barcodeId(123L)
+                .build();
+
+        given(barcodeService.getBarcodeByCode("1111"))
+                .willReturn(Optional.ofNullable(barcode));
         // when & then
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/barcode/find")
